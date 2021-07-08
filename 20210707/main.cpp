@@ -76,7 +76,8 @@ int main(int argc, char* argv[])
 	struct sockaddr_in address;
 	bzero(&address,sizeof(address));
 	address.sin_family = AF_INET; // use ipv4
-	inet_pton(AF_INET,ip,&address.sin_addr); // input ip address to sin_addr
+	inet_pton(AF_INET, ip, &address.sin_addr); // input ip address to sin_addr
+	// address.sin_addr.s_addr = htonl(INADDR_ANY);
 	address.sin_port=htons(port); // change port number to net short type
 	
 	// bind address information struct with socketfd
@@ -84,7 +85,7 @@ int main(int argc, char* argv[])
 	listen(listenfd,50); // add socketfd to listen queue
 	
 	// ev for register event, events for transmmit back event
-	struct epoll_event ev,  events[20];
+	struct epoll_event ev, events[20];
 	int epfd=epoll_create(10000); // create epoll handler
 	ev.data.fd=listenfd; // the event's fd is the listendfd
 	ev.events=EPOLLIN; // read
